@@ -1,0 +1,524 @@
+# AI Campus Route Navigator
+
+An AI-based campus navigation system for the University of Calcutta Technology Campus. The project models the campus as a weighted graph and compares two intelligent routing agents:
+
+- **PATHFINDER** — Greedy Best-First Search
+- **ORBIT** — A* Search
+
+Both agents solve the same navigation problems using the same heuristic while following the special movement constraints of the CSE zone.
+
+## Objectives
+
+The main objectives of this project are:
+
+1. Convert the supplied campus map into a weighted graph.
+2. Store the graph separately in `campus.json`.
+3. Implement Greedy Best-First Search from scratch.
+4. Implement A* Search from scratch.
+5. Use the same heuristic for both algorithms.
+6. Implement the CSE-zone movement restriction.
+7. Compare both agents based on:
+   - Route
+   - Path Cost
+   - Nodes Explored
+   - Execution Time
+8. Store experimental results in `results.csv`.
+9. Follow an object-oriented design.
+
+## Agents
+
+### PATHFINDER
+
+PATHFINDER uses **Greedy Best-First Search**.
+
+The priority function is:
+
+`f(n) = h(n)`
+
+where `h(n)` is the estimated distance from the current node to the destination.
+
+Greedy Best-First Search prioritizes the node that appears closest to the destination.
+
+### ORBIT
+
+ORBIT uses **A* Search**.
+
+The priority function is:
+
+`f(n) = g(n) + h(n)`
+
+where:
+
+- `g(n)` = actual cost from the source to the current node
+- `h(n)` = estimated cost from the current node to the destination
+
+A* considers both the cost already travelled and the estimated remaining cost.
+
+## Heuristic
+
+Both agents use the same heuristic.
+
+The heuristic is calculated using the coordinates stored in `campus.json`:
+
+`h(n) = Euclidean Distance(n, destination)`
+
+The graph and coordinates are loaded from the JSON file rather than being hard-coded inside the search algorithms.
+
+## Campus Graph
+
+The campus is represented as a weighted graph.
+
+### Nodes
+
+Each node represents a location appearing on the supplied campus map.
+
+Examples include:
+
+- Playground
+- Parking Area
+- Tower 2 Front Entry
+- Tower 2 Rear Entry
+- Library
+- Lift Area
+- Garden Area
+- CSE Laboratory
+- CSE_AKC Seminar Hall
+- CSE_Reflxon Room
+- Canteen, CU Technology Campus
+- Reception of Calcutta University
+- Auditorium Hall
+- Entry Gate 1
+- Entry Gate 2
+- Entry Gate 3
+- Entry Gate 4
+- New Building 1 (Science & Seminar Hall)
+- New Building 2 (Workshop Building)
+- Power Area
+- CRNN Centre (Nano Technology)
+
+### Edges
+
+An edge represents a walkable connection between two campus locations.
+
+Each edge has an approximate walking cost/distance.
+
+The graph is stored in `campus.json`.
+
+The search algorithms do not contain the campus graph directly.
+
+## CSE Zone Constraint
+
+The CSE zone contains:
+
+- CSE Laboratory
+- CSE_AKC Seminar Hall
+- CSE_Reflxon Room
+
+Access to the CSE zone must follow the specified campus restriction.
+
+### Entry
+
+The valid entry sequence is:
+
+`Tower 2 Front Entry OR Tower 2 Rear Entry → Lift Area → CSE Location`
+
+Once the `Lift Area` has been crossed while entering the CSE zone, only CSE-labelled locations can be visited.
+
+Therefore, the search cannot move from a CSE location directly to an unrelated campus location.
+
+### Exit
+
+The valid exit sequence is:
+
+`CSE Location → Lift Area → Tower 2 Front Entry OR Tower 2 Rear Entry → Other Campus Locations`
+
+This restriction is enforced during neighbour generation rather than by hard-coding final routes.
+
+## Project Structure
+
+```text
+campus-navigator/
+│
+├── main.py
+├── campus_map.py
+├── search.py
+├── agents.py
+├── experiment.py
+├── campus.json
+├── results.csv
+└── README.md
+```
+
+## File Responsibilities
+
+### `main.py`
+
+The main entry point of the application.
+
+Responsibilities:
+
+- Load the campus graph.
+- Create the search engine.
+- Create PATHFINDER and ORBIT.
+- Provide the user interface.
+- Accept custom source and destination locations.
+- Run predefined experiments.
+
+### `campus_map.py`
+
+Responsible for the campus graph.
+
+Contains:
+
+- Campus graph representation
+- JSON loading
+- Node information
+- Edge information
+- Heuristic calculation
+- CSE-zone movement restrictions
+- Valid neighbour generation
+
+### `search.py`
+
+Contains the search algorithms.
+
+Implemented algorithms:
+
+- Greedy Best-First Search
+- A* Search
+
+The algorithms operate on the graph loaded from `campus.json`.
+
+### `agents.py`
+
+Defines the routing agents.
+
+```text
+RoutingAgent
+    │
+    ├── PATHFINDER
+    │      └── Greedy Best-First Search
+    │
+    └── ORBIT
+           └── A* Search
+```
+
+### `experiment.py`
+
+Responsible for running predefined experiments.
+
+It records:
+
+- Source
+- Destination
+- Agent
+- Route
+- Path cost
+- Nodes explored
+- Execution time
+
+The results are saved to `results.csv`.
+
+### `campus.json`
+
+Contains the campus graph data.
+
+It stores:
+
+- Locations
+- Coordinates
+- Connections
+- Edge weights
+
+The search algorithms read the graph from this file.
+
+### `results.csv`
+
+Stores the experimental results generated by the program.
+
+The CSV contains:
+
+```text
+pair,agent,source,destination,path,cost,nodes_explored,time
+```
+
+## System Architecture
+
+```text
+                 campus.json
+                     │
+                     ▼
+               CampusGraph
+                     │
+          ┌──────────┴──────────┐
+          ▼                     ▼
+     PATHFINDER               ORBIT
+          │                     │
+          ▼                     ▼
+      Greedy BFS               A*
+          │                     │
+          └──────────┬──────────┘
+                     ▼
+              Search Results
+                     │
+          ┌──────────┼──────────┐
+          ▼          ▼          ▼
+        Route      Cost      Nodes/Time
+                     │
+                     ▼
+                results.csv
+```
+
+## Experimental Routes
+
+The program evaluates the agents on multiple source-destination pairs.
+
+The predefined experiments include:
+
+| Experiment | Source | Destination |
+|---|---|---|
+| 1 | Reception of Calcutta University | Library |
+| 2 | Canteen, CU Technology Campus | New Building 2 (Workshop Building) |
+| 3 | Entry Gate 1 | CSE Laboratory |
+| 4 | Auditorium Hall | CSE_AKC Seminar Hall |
+| 5 | Library | Canteen, CU Technology Campus |
+
+These include both normal campus navigation and CSE-zone navigation.
+
+The final routes are **not hard-coded**. They are generated by the search algorithms at runtime.
+
+## Performance Metrics
+
+### 1. Route
+
+The sequence of campus locations travelled by the agent.
+
+### 2. Path Cost
+
+The total cost of all edges in the selected route.
+
+`Path Cost = Sum of edge weights`
+
+### 3. Nodes Explored
+
+The number of states/nodes expanded during the search.
+
+This provides an indication of search effort.
+
+### 4. Execution Time
+
+The time taken by the algorithm to find the route.
+
+## PATHFINDER vs ORBIT
+
+| Feature | PATHFINDER | ORBIT |
+|---|---|---|
+| Algorithm | Greedy Best-First Search | A* |
+| Priority | `h(n)` | `g(n) + h(n)` |
+| Considers travelled cost | No | Yes |
+| Considers estimated distance | Yes | Yes |
+| Search strategy | Goal-directed | Cost + goal-directed |
+| Optimality | Not guaranteed | Optimal with an admissible heuristic |
+| Implementation | Priority Queue | Priority Queue |
+
+## Expected Behaviour
+
+PATHFINDER focuses primarily on the estimated distance to the destination.
+
+Therefore, it may explore fewer nodes in some situations but can select a more expensive route.
+
+ORBIT considers both the cost already travelled and the estimated remaining cost.
+
+Therefore, A* can generally provide better route-cost behaviour when the heuristic is appropriate.
+
+The actual results depend on the campus graph, edge weights, source-destination pair, and search space.
+
+## Running the Project
+
+Make sure Python 3 is installed.
+
+Run:
+
+```bash
+python3 main.py
+```
+
+The program provides options similar to:
+
+```text
+========================================
+       AI CAMPUS ROUTE NAVIGATOR
+========================================
+
+1. Run predefined experiments
+2. Find custom route
+3. Exit
+```
+
+## Running Experiments
+
+Select:
+
+```text
+1
+```
+
+The program runs all predefined source-destination pairs for both agents.
+
+The results are displayed and saved to:
+
+`results.csv`
+
+## Finding a Custom Route
+
+Select:
+
+```text
+2
+```
+
+Enter the source and destination exactly as they appear in the campus graph.
+
+For example:
+
+```text
+Source: Library
+Destination: Canteen, CU Technology Campus
+```
+
+The program then runs both PATHFINDER and ORBIT and displays their:
+
+- Route
+- Path cost
+- Nodes explored
+- Execution time
+
+## Object-Oriented Design
+
+The project follows an object-oriented structure.
+
+### `CampusGraph`
+
+Responsible for:
+
+- Graph representation
+- JSON loading
+- Neighbour generation
+- Heuristic calculation
+- CSE constraints
+
+### `SearchEngine`
+
+Responsible for:
+
+- Greedy Best-First Search
+- A* Search
+- Path reconstruction
+- Search statistics
+
+### `RoutingAgent`
+
+Provides a common interface for routing agents.
+
+### `Pathfinder`
+
+Uses Greedy Best-First Search.
+
+### `Orbit`
+
+Uses A* Search.
+
+### `ExperimentRunner`
+
+Responsible for:
+
+- Running experiments
+- Collecting metrics
+- Saving CSV results
+- Comparing agents
+
+## Important Design Decisions
+
+### Graph separated from algorithms
+
+The campus structure is stored in `campus.json`.
+
+This prevents the search algorithms from depending on hard-coded campus routes.
+
+### Same heuristic
+
+Both PATHFINDER and ORBIT use the same heuristic so that the comparison focuses on the difference between their search strategies.
+
+### Dynamic route generation
+
+The final route is determined at runtime.
+
+The program does not contain source-specific route-return statements. Instead, the search algorithms dynamically explore the graph.
+
+### CSE restriction during search
+
+The CSE restriction is enforced while generating valid neighbours.
+
+This means an invalid movement is never added to the search frontier.
+
+## Technologies Used
+
+- Python 3
+- Object-Oriented Programming
+- JSON
+- CSV
+- Priority Queue
+- Greedy Best-First Search
+- A* Search
+- Graph Search
+- Euclidean Distance Heuristic
+
+## Learning Outcomes
+
+This project demonstrates practical implementation of:
+
+- Graph representation
+- Weighted graphs
+- Heuristic search
+- Greedy Best-First Search
+- A* Search
+- Priority queues
+- Path reconstruction
+- State-space constraints
+- Object-oriented programming
+- JSON file handling
+- CSV result generation
+- Algorithm performance comparison
+
+## Future Improvements
+
+Possible improvements include:
+
+- Interactive graphical campus map
+- Visual route highlighting
+- Better distance estimation using actual map measurements
+- Additional search algorithms such as BFS and Dijkstra
+- Larger experimental datasets
+- Graph visualisation
+- Interactive comparison charts
+- Dynamic obstacle or blocked-path handling
+
+## Conclusion
+
+The **AI Campus Route Navigator** demonstrates how a real-world campus navigation problem can be converted into a graph-search problem.
+
+The campus map is represented as a weighted graph, while two autonomous routing agents use different heuristic search strategies:
+
+- **PATHFINDER → Greedy Best-First Search**
+- **ORBIT → A* Search**
+
+Both agents operate on the same campus graph and heuristic while respecting the CSE-zone movement constraint.
+
+The resulting experimental data allows the computational behaviour of Greedy Best-First Search and A* to be compared using route cost, nodes explored, and execution time.
+
+## Author
+
+**Debmalya Ghosh**
+
+B.Tech Computer Science & Engineering  
+University of Calcutta — Technology Campus

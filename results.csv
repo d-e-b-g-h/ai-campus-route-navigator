@@ -1,0 +1,11 @@
+pair,agent,source,destination,path,cost,nodes_explored,time
+1,PATHFINDER,Reception of Calcutta University,Library,Reception of Calcutta University -> CRNN Centre (Nano Technology) -> Auditorium Hall -> Garden Area -> Lift Area -> Library,106.1,6,0.000174
+1,ORBIT,Reception of Calcutta University,Library,Reception of Calcutta University -> Power Area -> Tower 2 Front Entry -> Lift Area -> Library,93.6,11,6.3e-05
+2,PATHFINDER,"Canteen, CU Technology Campus",New Building 2 (Workshop Building),"Canteen, CU Technology Campus -> Auditorium Hall -> New Building 2 (Workshop Building)",58.3,3,1.7e-05
+2,ORBIT,"Canteen, CU Technology Campus",New Building 2 (Workshop Building),"Canteen, CU Technology Campus -> Auditorium Hall -> New Building 2 (Workshop Building)",58.3,4,1.8e-05
+3,PATHFINDER,Entry Gate 1,CSE Laboratory,"Entry Gate 1 -> Canteen, CU Technology Campus -> Reception of Calcutta University -> Power Area -> Tower 2 Front Entry -> Lift Area -> CSE Laboratory",118.7,8,3.4e-05
+3,ORBIT,Entry Gate 1,CSE Laboratory,"Entry Gate 1 -> Canteen, CU Technology Campus -> Auditorium Hall -> Garden Area -> Lift Area -> CSE Laboratory",108.3,11,4.3e-05
+4,PATHFINDER,Auditorium Hall,CSE_AKC Seminar Hall,Auditorium Hall -> Garden Area -> Lift Area -> CSE Laboratory -> CSE_AKC Seminar Hall,71.0,6,3.8e-05
+4,ORBIT,Auditorium Hall,CSE_AKC Seminar Hall,Auditorium Hall -> Garden Area -> Lift Area -> CSE Laboratory -> CSE_AKC Seminar Hall,71.0,9,4e-05
+5,PATHFINDER,Library,"Canteen, CU Technology Campus","Library -> Lift Area -> Tower 2 Front Entry -> Power Area -> Reception of Calcutta University -> Canteen, CU Technology Campus",106.1,9,3.3e-05
+5,ORBIT,Library,"Canteen, CU Technology Campus","Library -> Lift Area -> Garden Area -> Auditorium Hall -> Canteen, CU Technology Campus",95.7,10,3.8e-05

@@ -1,0 +1,136 @@
+{
+  "nodes": {
+    "Playground": {
+      "x": 15,
+      "y": 10
+    },
+    "Parking Area": {
+      "x": 32,
+      "y": 8
+    },
+    "Tower 2 Front Entry": {
+      "x": 31,
+      "y": 18
+    },
+    "Tower 2 Rear Entry": {
+      "x": 52,
+      "y": 12
+    },
+    "Library": {
+      "x": 67,
+      "y": 12
+    },
+    "CSE Laboratory": {
+      "x": 43,
+      "y": 24
+    },
+    "CSE_Reflxon Room": {
+      "x": 33,
+      "y": 28
+    },
+    "CSE_AKC Seminar Hall": {
+      "x": 43,
+      "y": 30
+    },
+    "Lift Area": {
+      "x": 57,
+      "y": 25
+    },
+    "Garden Area": {
+      "x": 65,
+      "y": 36
+    },
+    "New Building 1 (Science & Seminar Hall)": {
+      "x": 82,
+      "y": 32
+    },
+    "New Building 2 (Workshop Building)": {
+      "x": 65,
+      "y": 54
+    },
+    "Power Area": {
+      "x": 20,
+      "y": 40
+    },
+    "Reception of Calcutta University": {
+      "x": 20,
+      "y": 48
+    },
+    "Canteen, CU Technology Campus": {
+      "x": 20,
+      "y": 58
+    },
+    "CRNN Centre (Nano Technology)": {
+      "x": 39,
+      "y": 48
+    },
+    "Auditorium Hall": {
+      "x": 43,
+      "y": 59
+    },
+    "Entry Gate 1": {
+      "x": 25,
+      "y": 70
+    },
+    "Entry Gate 2": {
+      "x": 92,
+      "y": 70
+    },
+    "Entry Gate 3": {
+      "x": 92,
+      "y": 45
+    },
+    "Entry Gate 4": {
+      "x": 92,
+      "y": 10
+    }
+  },
+
+  "edges": [
+    ["Playground", "Parking Area", 21.4],
+    ["Playground", "Tower 2 Front Entry", 22.4],
+
+    ["Parking Area", "Tower 2 Front Entry", 12.6],
+    ["Parking Area", "Tower 2 Rear Entry", 25.5],
+
+    ["Tower 2 Front Entry", "Lift Area", 33.7],
+    ["Tower 2 Rear Entry", "Lift Area", 17.4],
+    ["Tower 2 Rear Entry", "Library", 18.8],
+
+    ["Lift Area", "Library", 20.5],
+    ["Lift Area", "Garden Area", 17.0],
+    ["Lift Area", "CSE Laboratory", 17.5],
+
+    ["CSE Laboratory", "CSE_AKC Seminar Hall", 7.5],
+    ["CSE Laboratory", "CSE_Reflxon Room", 13.0],
+    ["CSE_AKC Seminar Hall", "CSE_Reflxon Room", 7.0],
+
+    ["Power Area", "Tower 2 Front Entry", 29.4],
+    ["Power Area", "Reception of Calcutta University", 10.0],
+
+    ["Reception of Calcutta University", "Canteen, CU Technology Campus", 12.5],
+    ["Reception of Calcutta University", "CRNN Centre (Nano Technology)", 24.0],
+
+    ["Canteen, CU Technology Campus", "Auditorium Hall", 29.2],
+
+    ["CRNN Centre (Nano Technology)", "Auditorium Hall", 15.6],
+
+    ["Auditorium Hall", "New Building 2 (Workshop Building)", 29.1],
+    ["Auditorium Hall", "Garden Area", 29.0],
+
+    ["New Building 2 (Workshop Building)", "Garden Area", 22.5],
+    ["New Building 2 (Workshop Building)", "Entry Gate 2", 31.9],
+
+    ["Garden Area", "New Building 1 (Science & Seminar Hall)", 21.5],
+    ["Garden Area", "Entry Gate 4", 38.4],
+
+    ["New Building 1 (Science & Seminar Hall)", "Entry Gate 3", 12.5],
+    ["New Building 1 (Science & Seminar Hall)", "Entry Gate 4", 37.8],
+
+    ["Entry Gate 3", "Entry Gate 2", 31.3],
+    ["Entry Gate 4", "Entry Gate 3", 43.8],
+
+    ["Entry Gate 2", "Entry Gate 1", 84.0],
+    ["Entry Gate 1", "Canteen, CU Technology Campus", 15.6]
+  ]
+}
